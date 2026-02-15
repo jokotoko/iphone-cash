@@ -1,7 +1,10 @@
 .section {
     background-color: #FFFB93;
-    padding: 3rem 1rem;
+    /* Swappie Yellow */
+    padding: 2rem 1rem;
     width: 100%;
+    overflow: hidden;
+    /* Prevent scrollbars from animations */
 }
 
 .container {
@@ -9,7 +12,7 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem;
     align-items: center;
 }
 
@@ -17,14 +20,15 @@
     width: 100%;
     max-width: 600px;
     text-align: center;
+    z-index: 10;
 }
 
 .title {
     color: #222C9B;
     font-family: var(--font-poppins);
     font-weight: 700;
-    font-size: 2rem;
-    line-height: 1.25;
+    font-size: 2.25rem;
+    line-height: 1.2;
     margin-bottom: 1.5rem;
 }
 
@@ -32,9 +36,9 @@
     color: #222C9B;
     font-family: var(--font-lato);
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 1.125rem;
     margin-bottom: 2rem;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .usps {
@@ -44,13 +48,18 @@
     list-style: none;
     padding: 0;
     margin-bottom: 2rem;
+    justify-items: center;
+    /* Center on mobile */
 }
 
 .uspItem {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 1rem;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
 }
 
 .iconWrapper {
@@ -59,20 +68,20 @@
     justify-content: center;
     width: 24px;
     height: 24px;
+    min-width: 24px;
 }
 
 .uspText {
     color: #333333;
     font-family: var(--font-lato);
-    font-size: 1rem;
-    font-weight: 400;
-    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 500;
 }
 
 .ctaWrapper {
     display: flex;
     justify-content: center;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .ctaButton {
@@ -83,27 +92,66 @@
     color: #FFFFFF;
     font-family: var(--font-poppins);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1.125rem;
     padding: 1rem 3rem;
-    border-radius: 40px;
+    border-radius: 50px;
     text-decoration: none;
-    transition: background-color 0.2s;
-    min-width: 200px;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(34, 44, 155, 0.3);
 }
 
 .ctaButton:hover {
-    background-color: #6D76D7;
+    background-color: #1A227E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34, 44, 155, 0.4);
 }
 
 .imageContainer {
-    display: none;
-    /* Hidden on mobile by default in this layout, or add image later */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
 }
 
+.blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle, rgba(33, 150, 243, 0.6) 0%, rgba(33, 150, 243, 0) 70%);
+    z-index: -1;
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: pulseGlow 3s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+.heroImage {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+}
+
+
 /* Tablet & Desktop */
-@media (min-width: 768px) {
+@media (min-width: 900px) {
     .section {
-        padding: 4rem 2rem;
+        padding: 6rem 2rem;
     }
 
     .container {
@@ -116,14 +164,22 @@
     .content {
         text-align: left;
         max-width: 50%;
+        align-items: flex-start;
     }
 
     .title {
-        font-size: 3rem;
+        font-size: 3.5rem;
     }
 
     .subtitle {
         font-size: 1.25rem;
+        max-width: 90%;
+    }
+
+    .usps {
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: start;
+        gap: 1.5rem;
     }
 
     .ctaWrapper {
@@ -131,14 +187,12 @@
     }
 
     .imageContainer {
-        display: block;
         width: 45%;
-        height: 400px;
-        /* Placeholder height */
-        /* In real implementation, background image would go here */
-        background-image: url('https://assets.swappie.com/cdn-cgi/image/width=1200,fit=scale-down,format=auto/desktop-mask-hero-1.png?v=13604f91');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
+        justify-content: flex-end;
+    }
+
+    .heroImage {
+        max-width: 100%;
+        /* Let it scale up */
     }
 }

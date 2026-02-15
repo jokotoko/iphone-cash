@@ -4,11 +4,15 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../lib/supabaseClient';
 import Link from 'next/link';
+import OrderDetailsModal from '../../components/OrderDetailsModal';
+import styles from './Admin.module.css';
 
 export default function AdminPage() {
     const router = useRouter();
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [filterStatus, setFilterStatus] = useState('all');
 
     useEffect(() => {
         fetchOrders();
@@ -30,75 +34,145 @@ export default function AdminPage() {
         setLoading(false);
     };
 
-    if (loading) return <div style={{ padding: '40px', textAlign: 'center' }}>Ładowanie...</div>;
+    const updateOrderStatus = async (orderId, newStatus) => {
+        const { error } = await supabase
+            .from('orders')
+            .update({ status: newStatus })
+            .eq('id', orderId);
+
+        if (error) {
+            console.error('Error updating status:', error);
+            alert('Błąd podczas aktualizacji statusu.');
+        } else {
+            // Refresh local state
+            setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+        }
+    };
+
+    const filteredOrders = filterStatus === 'all'
+        ? orders
+        : orders.filter(order => order.status === filterStatus);
+
+    const StatusBadge = ({ status }) => {
+        const getStatusClass = () => {
+            switch (status) {
+                case 'new': return styles.statusNew;
+                case 'received': return styles.statusReceived;
+                case 'verified': return styles.statusVerified;
+                case 'paid': return styles.statusPaid;
+                case 'cancelled': return styles.statusCancelled;
+                default: return styles.statusNew;
+            }
+        };
+
+        const getStatusLabel = () => {
+            switch (status) {
+                case 'new': return 'Nowe';
+                case 'received': return 'Odebrano';
+                case 'verified': return 'Zweryfikowano';
+                case 'paid': return 'Wypłacono';
+                case 'cancelled': return 'Anulowano';
+                default: return status;
+            }
+        };
+
+        return (
+            <span className={`${styles.statusBadge} ${getStatusClass()}`}>
+                {getStatusLabel()}
+            </span>
+        );
+    };
+
+    if (loading) return <div className={styles.container} style={{ textAlign: 'center' }}>Ładowanie...</div>;
 
     return (
-        <div style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto', fontFamily: 'var(--font-body)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-                <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '24px', fontWeight: '700' }}>Panel Administratora</h1>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>Panel Administratora ({filteredOrders.length})</h1>
+                <div className={styles.actions}>
                     <Link href="/" style={{ textDecoration: 'none', color: '#666' }}>← Strona główna</Link>
-                    <button
-                        onClick={handleLogout}
-                        style={{
-                            padding: '8px 16px',
-                            background: '#EF4444',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '6px',
-                            cursor: 'pointer',
-                            fontWeight: '600'
-                        }}
-                    >
+                    <button onClick={handleLogout} className={styles.logoutBtn}>
                         Wyloguj
                     </button>
                 </div>
             </div>
 
-            <div style={{ background: 'white', borderRadius: '12px', boxShadow: '0 2px 12px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                    <thead style={{ background: '#f5f5f7' }}>
+            <div className={styles.filters}>
+                {['all', 'new', 'received', 'verified', 'paid', 'cancelled'].map(status => (
+                    <button
+                        key={status}
+                        className={`${styles.filterBtn} ${filterStatus === status ? styles.filterBtnActive : ''}`}
+                        onClick={() => setFilterStatus(status)}
+                    >
+                        {status === 'all' ? 'Wszystkie' :
+                            status === 'new' ? 'Nowe' :
+                                status === 'received' ? 'Odebrano' :
+                                    status === 'verified' ? 'Zweryfikowano' :
+                                        status === 'paid' ? 'Wypłacono' : 'Anulowano'}
+                    </button>
+                ))}
+            </div>
+
+            <div className={styles.tableContainer}>
+                <table className={styles.table}>
+                    <thead>
                         <tr>
-                            <th style={{ padding: '16px', fontSize: '14px', fontWeight: '600', color: '#666' }}>Data</th>
-                            <th style={{ padding: '16px', fontSize: '14px', fontWeight: '600', color: '#666' }}>Klient</th>
-                            <th style={{ padding: '16px', fontSize: '14px', fontWeight: '600', color: '#666' }}>Model</th>
-                            <th style={{ padding: '16px', fontSize: '14px', fontWeight: '600', color: '#666' }}>Cena</th>
-                            <th style={{ padding: '16px', fontSize: '14px', fontWeight: '600', color: '#666' }}>Status</th>
+                            <th className={styles.th}>Data</th>
+                            <th className={styles.th}>Klient</th>
+                            <th className={styles.th}>Model</th>
+                            <th className={styles.th}>Cena</th>
+                            <th className={styles.th}>Status</th>
+                            <th className={styles.th}>Akcje</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map(order => (
-                            <tr key={order.id} style={{ borderBottom: '1px solid #eee' }}>
-                                <td style={{ padding: '16px' }}>{new Date(order.created_at).toLocaleDateString()}</td>
-                                <td style={{ padding: '16px' }}>
-                                    <div style={{ fontWeight: '600' }}>{order.customer_info?.name}</div>
-                                    <div style={{ fontSize: '12px', color: '#888' }}>{order.customer_info?.email}</div>
-                                    <div style={{ fontSize: '12px', color: '#888' }}>{order.customer_info?.phone}</div>
-                                </td>
-                                <td style={{ padding: '16px' }}>
-                                    <div>{order.model} {order.capacity}</div>
-                                    <div style={{ fontSize: '12px', color: '#888' }}>Bat: {order.details?.battery}%</div>
-                                </td>
-                                <td style={{ padding: '16px', fontWeight: '700', color: '#222C9B' }}>
-                                    {order.price} zł
-                                </td>
-                                <td style={{ padding: '16px' }}>
-                                    <span style={{
-                                        padding: '4px 12px',
-                                        borderRadius: '99px',
-                                        fontSize: '12px',
-                                        fontWeight: '600',
-                                        background: order.status === 'new' ? '#E3F2FD' : '#E8F5E9',
-                                        color: order.status === 'new' ? '#1565C0' : '#2E7D32'
-                                    }}>
-                                        {order.status === 'new' ? 'Nowe' : order.status}
-                                    </span>
+                        {filteredOrders.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" style={{ padding: '32px', textAlign: 'center', color: '#888' }}>
+                                    Brak zamówień w tej kategorii.
                                 </td>
                             </tr>
-                        ))}
+                        ) : (
+                            filteredOrders.map(order => (
+                                <tr key={order.id}>
+                                    <td className={styles.td}>{new Date(order.created_at).toLocaleDateString()}</td>
+                                    <td className={styles.td}>
+                                        <div style={{ fontWeight: '600' }}>{order.customer_info?.name}</div>
+                                        <div style={{ fontSize: '12px', color: '#888' }}>{order.customer_info?.email}</div>
+                                        <div style={{ fontSize: '12px', color: '#888' }}>{order.customer_info?.phone}</div>
+                                    </td>
+                                    <td className={styles.td}>
+                                        <div>{order.model} {order.capacity}</div>
+                                        <div style={{ fontSize: '12px', color: '#888' }}>Bat: {order.details?.battery}%</div>
+                                    </td>
+                                    <td className={styles.td} style={{ fontWeight: '700', color: '#222C9B' }}>
+                                        {order.price} zł
+                                    </td>
+                                    <td className={styles.td}>
+                                        <StatusBadge status={order.status} />
+                                    </td>
+                                    <td className={styles.td}>
+                                        <button
+                                            className={styles.detailsBtn}
+                                            onClick={() => setSelectedOrder(order)}
+                                        >
+                                            Szczegóły / Zmień status
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>
+
+            {selectedOrder && (
+                <OrderDetailsModal
+                    order={selectedOrder}
+                    onClose={() => setSelectedOrder(null)}
+                    onUpdateStatus={updateOrderStatus}
+                />
+            )}
         </div>
     );
 }

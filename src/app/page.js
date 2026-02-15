@@ -1,5 +1,6 @@
 import Header from '../components/Header';
 import Hero from '../components/Hero';
+import LiveTicker from '../components/LiveTicker';
 import ModelCarousel from '../components/ModelCarousel';
 
 
@@ -58,6 +59,7 @@ export default function Home() {
       />
 
       <Hero />
+      <LiveTicker />
       <Trust />
       <ModelCarousel />
       <Steps />
