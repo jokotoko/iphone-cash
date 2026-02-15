@@ -79,6 +79,7 @@ export const metadata = {
 
 
 export default function RootLayout({ children }) {
+  console.log("VERSION CHECK: CSS FIXES APPLIED (2026-02-16)");
   return (
     <html lang="pl">
       <body className={`${poppins.variable} ${lato.variable}`}>
