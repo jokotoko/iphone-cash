@@ -25,16 +25,13 @@ export default function Header() {
 
                 {/* Desktop Nav */}
                 <nav className={styles.nav}>
-                    <div className={styles.navItem}>
-                        <Link href="/kup" className={styles.navLink}>Kup</Link>
-                        {/* Dropdown would go here */}
-                    </div>
-                    <Link href="/sprzedaj" className={styles.navLink}>Sprzedaj</Link>
-                    <Link href="/opinie" className={styles.navLink}>Opinie</Link>
-                    <Link href="/pomoc" className={styles.navLink}>Pomoc</Link>
-                    <div className={styles.navItem}>
-                        <Link href="/o-nas" className={styles.navLink}>O nas</Link>
-                    </div>
+                    {/* <div className={styles.navItem}>
+                        <Link href="/kup" className={styles.navLink}>Kup</Link> 
+                    </div> */}
+                    <Link href="#models" className={styles.navLink}>Sprzedaj</Link>
+                    <Link href="#how-it-works" className={styles.navLink}>Jak to działa</Link>
+                    <Link href="#reviews" className={styles.navLink}>Opinie</Link>
+                    <Link href="#faq" className={styles.navLink}>Pomoc</Link>
                 </nav>
 
                 {/* Right Actions */}
@@ -67,11 +64,10 @@ export default function Header() {
             {/* Mobile Menu Overlay */}
             <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
                 <nav className={styles.mobileNav}>
-                    <Link href="/kup" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Kup</Link>
-                    <Link href="/sprzedaj" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Sprzedaj</Link>
-                    <Link href="/opinie" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Opinie</Link>
-                    <Link href="/pomoc" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Pomoc</Link>
-                    <Link href="/o-nas" className={styles.mobileNavLink} onClick={toggleMobileMenu}>O nas</Link>
+                    <Link href="#models" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Sprzedaj</Link>
+                    <Link href="#how-it-works" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Jak to działa</Link>
+                    <Link href="#reviews" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Opinie</Link>
+                    <Link href="#faq" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Pomoc</Link>
                     <div className={styles.mobileDivider}></div>
                     <Link href="/koszyk" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Koszyk</Link>
                     <Link href="/kraj" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Polska (PLN)</Link>

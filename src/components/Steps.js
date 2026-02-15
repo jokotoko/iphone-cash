@@ -26,9 +26,9 @@ const steps = [
 
 export default function Steps() {
     return (
-        <section className={styles.section} id="jak-to-dziala">
+        <section id="how-it-works" className={styles.section}>
             <div className={styles.container}>
-                <h2 className={styles.heading}>Jak to działa?</h2>
+                <h2 className={styles.title}>Jak to działa?</h2>
 
                 <div className={styles.grid}>
                     {steps.map((step) => (

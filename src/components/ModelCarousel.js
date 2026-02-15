@@ -64,9 +64,9 @@ export default function ModelCarousel() {
     }, [isHovering]);
 
     return (
-        <section className={styles.section}>
+        <section id="models" className={styles.section}>
             <div className={styles.container}>
-                <h2 className={styles.heading}>Przetestowany przez ekspertów. Gotowy dla Państwa.</h2>
+                <h2 className={styles.title}>Wybierz swój model</h2>
 
                 <div
                     className={styles.carouselWrapper}

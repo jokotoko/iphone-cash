@@ -29,9 +29,9 @@ const reviewsData = [
 
 export default function Reviews() {
     return (
-        <section className={styles.section}>
+        <section id="reviews" className={styles.section}>
             <div className={styles.container}>
-                <h2 className={styles.title}>Co mówią o nas klienci?</h2>
+                <h2 className={styles.title}>Co mówią nasi klienci?</h2>
                 <div className={styles.grid}>
                     {reviewsData.map((review) => (
                         <div key={review.id} className={styles.card}>

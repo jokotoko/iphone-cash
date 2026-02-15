@@ -28,9 +28,9 @@ export default function FAQ() {
     ];
 
     return (
-        <section className={styles.section}>
+        <section id="faq" className={styles.section}>
             <div className={styles.container}>
-                <h2 className={styles.heading}>Najczęściej zadawane pytania</h2>
+                <h2 className={styles.title}>Częste pytania</h2>
                 <div className={styles.faqList}>
                     {faqs.map((faq, index) => (
                         <FAQItem key={index} question={faq.question} answer={faq.answer} />
