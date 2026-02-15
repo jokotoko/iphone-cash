@@ -4,6 +4,7 @@ import ModelCarousel from '../components/ModelCarousel';
 
 
 import Steps from '../components/Steps';
+import Reviews from '../components/Reviews';
 import FAQ from '../components/FAQ';
 import Trust from '../components/Trust';
 import Footer from '../components/Footer';
@@ -60,9 +61,7 @@ export default function Home() {
       <Trust />
       <ModelCarousel />
       <Steps />
-
-
-
+      <Reviews />
       <FAQ />
       <Footer />
     </main>
