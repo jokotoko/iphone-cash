@@ -1,0 +1,208 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.logoIcon {
+    color: var(--text-main);
+}
+
+.nav {
+    display: none;
+    align-items: center;
+    gap: 32px;
+}
+
+@media (min-width: 768px) {
+    .nav {
+        display: flex;
+    }
+}
+
+.navLink {
+    font-family: var(--font-heading);
+    /* Swappie uses Poppins for nav */
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+    text-transform: uppercase;
+    transition: color 0.2s;
+}
+
+.navLink:hover {
+    color: var(--primary);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.iconButton {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.iconButton:hover {
+    color: var(--primary);
+}
+
+.flagIcon {
+    font-size: 18px;
+}
+
+.ctaButton {
+    background: var(--primary);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 99px;
+    /* Pill shape */
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+    display: none;
+}
+
+.ctaButton:hover {
+    background: var(--primary-hover);
+}
+
+@media (min-width: 768px) {
+    .ctaButton {
+        display: block;
+    }
+}
+
+/* Mobile Toggle */
+.mobileToggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10;
+}
+
+@media (min-width: 768px) {
+    .mobileToggle {
+        display: none;
+    }
+}
+
+.bar {
+    width: 24px;
+    height: 2px;
+    background: var(--text-main);
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+}
+
+.barOpen:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.barOpen:nth-child(2) {
+    opacity: 0;
+}
+
+.barOpen:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobileMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--background);
+    z-index: 1001;
+    padding: 90px 24px 32px;
+    transform: translateY(-100%);
+    visibility: hidden;
+    /* Added to prevent blocking clicks when closed */
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mobileMenuOpen {
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.mobileNav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mobileNavLink {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.mobileDivider {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.05);
+    margin: 16px 0;
+}
+
+@media (max-width: 900px) {
+    .nav {
+        display: none;
+    }
+
+    .mobileToggle {
+        display: flex;
+    }
+
+    .iconButton {
+        display: none;
+    }
+}

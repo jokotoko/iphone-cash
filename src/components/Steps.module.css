@@ -1,0 +1,91 @@
+.section {
+    padding: 4rem 1rem;
+    background-color: #FFFFFF;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+
+.heading {
+    text-align: center;
+    font-family: var(--font-poppins);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 3rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E4E4E4;
+    display: flex;
+    flex-direction: column;
+}
+
+.imageWrapper {
+    width: 100%;
+    height: 200px;
+    background-color: #f0f0f0;
+}
+
+.placeholderImage {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stepNumber {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #222C9B;
+    color: #fff;
+    border-radius: 50%;
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-family: var(--font-poppins);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333333;
+    margin: 0;
+}
+
+.description {
+    font-family: var(--font-lato);
+    font-size: 1rem;
+    color: #666666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

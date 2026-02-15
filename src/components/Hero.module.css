@@ -1,0 +1,144 @@
+.section {
+    background-color: #FFFB93;
+    padding: 3rem 1rem;
+    width: 100%;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.content {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.title {
+    color: #222C9B;
+    font-family: var(--font-poppins);
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+}
+
+.subtitle {
+    color: #222C9B;
+    font-family: var(--font-lato);
+    font-weight: 400;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.usps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+.uspItem {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.uspText {
+    color: #333333;
+    font-family: var(--font-lato);
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: left;
+}
+
+.ctaWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.ctaButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #222C9B;
+    color: #FFFFFF;
+    font-family: var(--font-poppins);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 1rem 3rem;
+    border-radius: 40px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    min-width: 200px;
+}
+
+.ctaButton:hover {
+    background-color: #6D76D7;
+}
+
+.imageContainer {
+    display: none;
+    /* Hidden on mobile by default in this layout, or add image later */
+}
+
+/* Tablet & Desktop */
+@media (min-width: 768px) {
+    .section {
+        padding: 4rem 2rem;
+    }
+
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+    }
+
+    .content {
+        text-align: left;
+        max-width: 50%;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 1.25rem;
+    }
+
+    .ctaWrapper {
+        justify-content: flex-start;
+    }
+
+    .imageContainer {
+        display: block;
+        width: 45%;
+        height: 400px;
+        /* Placeholder height */
+        /* In real implementation, background image would go here */
+        background-image: url('https://assets.swappie.com/cdn-cgi/image/width=1200,fit=scale-down,format=auto/desktop-mask-hero-1.png?v=13604f91');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
