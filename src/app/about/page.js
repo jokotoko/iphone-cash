@@ -1,7 +1,7 @@
 export default function AboutPage() {
     return (
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '4rem 1rem', minHeight: '60vh' }}>
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: 'var(--text-main)' }}>O nas</h1>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: 'red', border: '2px solid yellow' }}>O nas (DEBUG)</h1>
             <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-body)', marginBottom: '1rem' }}>
                 iPhoneCash.io to wiodąca platforma skupu urządzeń Apple w Polsce. Naszą misją jest zapewnienie najprostszego,
                 najszybszego i najbezpieczniejszego sposobu na sprzedaż Twojego iPhone'a.
