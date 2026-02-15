@@ -1,8 +1,8 @@
 export default function ContactPage() {
     return (
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '4rem 1rem', minHeight: '60vh' }}>
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#1d1d1f' }}>Kontakt</h1>
-            <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: '#333', marginBottom: '2rem' }}>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: 'var(--text-main)' }}>Kontakt</h1>
+            <p style={{ fontSize: '1.1rem', lineHeight: '1.6', color: 'var(--text-body)', marginBottom: '2rem' }}>
                 Masz pytania dotyczące wyceny lub statusu swojego zamówienia? Jesteśmy do Twojej dyspozycji.
             </p>
 

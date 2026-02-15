@@ -12,6 +12,7 @@
   /* Light Grey for sections */
 
   --text-main: #333333;
+  --text-body: #333333;
   --text-secondary: #666666;
 
   --success: #00BA7C;
@@ -25,6 +26,15 @@
   --radius-md: 8px;
   --radius-lg: 16px;
   --radius-xl: 24px;
+}
+
+[data-theme='dark'] {
+  --background: #000000;
+  --surface: #1d1d1f;
+  --surface-alt: #2d2d2f;
+  --text-main: #f5f5f7;
+  --text-body: #f5f5f7;
+  --text-secondary: #86868b;
 }
 
 html,

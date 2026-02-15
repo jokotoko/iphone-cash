@@ -1,10 +1,10 @@
 export default function PrivacyPage() {
     return (
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '4rem 1rem', minHeight: '60vh' }}>
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: '#1d1d1f' }}>Polityka Prywatności</h1>
-            <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '2rem' }}>Ostatnia aktualizacja: 15.02.2026</p>
+            <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1.5rem', color: 'var(--text-main)' }}>Polityka Prywatności</h1>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '2rem' }}>Ostatnia aktualizacja: 15.02.2026</p>
 
-            <div style={{ lineHeight: '1.8', color: '#333' }}>
+            <div style={{ lineHeight: '1.8', color: 'var(--text-body)' }}>
                 <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', marginTop: '2rem' }}>1. Administrator Danych</h3>
                 <p>Administratorem Twoich danych osobowych jest Skup iPhone - Antigravity z siedzibą w Warszawie.</p>
 
