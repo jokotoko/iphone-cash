@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import styles from './Header.module.css';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -34,8 +35,11 @@ export default function Header() {
                     <Link href="#faq" className={styles.navLink}>Pomoc</Link>
                 </nav>
 
+
+
                 {/* Right Actions */}
                 <div className={styles.actions}>
+                    <ThemeToggle />
                     <button className={styles.iconButton} aria-label="Wybierz kraj">
                         <span className={styles.flagIcon}>🇵🇱</span>
                     </button>

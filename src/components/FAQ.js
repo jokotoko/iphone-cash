@@ -3,67 +3,62 @@
 import { useState } from 'react';
 import styles from './FAQ.module.css';
 
+const faqs = [
+    {
+        question: "Kiedy otrzymam pieniądze za sprzedany telefon?",
+        answer: "Płatności realizujemy zazwyczaj w ciągu 24 godzin od momentu otrzymania i zweryfikowania urządzenia w naszym serwisie. W przypadku przelewu bankowego środki powinny pojawić się na Twoim koncie w kolejnym dniu roboczym."
+    },
+    {
+        question: "Jak przygotować iPhone'a do wysyłki?",
+        answer: "Przed wysyłką koniecznie wyloguj się z iCloud (Znajdź mój iPhone), usuń dane osobiste i przywróć ustawienia fabryczne. Telefon zapakuj w bezpieczne pudełko (najlepiej oryginalne) i zabezpiecz folią bąbelkową."
+    },
+    {
+        question: "Kto pokrywa koszt wysyłki?",
+        answer: "My! Generujemy dla Ciebie darmową etykietę kurierską lub kod nadania w Paczkomacie. Ty nie ponosisz żadnych kosztów wysyłki."
+    },
+    {
+        question: "Co jeśli stan telefonu różni się od zadeklarowanego?",
+        answer: "Jeśli podczas weryfikacji stwierdzimy różnice (np. głębsze rysy niż w opisie), skontaktujemy się z Tobą z nową propozycją wyceny. Możesz ją zaakceptować lub odrzucić – wtedy odeślemy telefon na nasz koszt."
+    },
+    {
+        question: "Czy skupujecie uszkodzone telefony?",
+        answer: "Tak, skupujemy również uszkodzone iPhone'y (np. ze zbitym ekranem czy uszkodzoną obudową), o ile są one uwzględnione w naszym formularzu wyceny. Nie skupujemy telefonów zablokowanych, kradzionych lub całkowicie martwych (nie włączających się)."
+    }
+];
+
 export default function FAQ() {
-    const faqs = [
-        {
-            question: 'Kiedy otrzymam zapłatę?',
-            answer: 'Płatność zlecamy w ciągu 1-4 dni roboczych od momentu, gdy telefon trafi do naszego centrum serwisowego i zostanie zweryfikowany. Pieniądze powinny pojawić się na Twoim koncie wkrótce potem.'
-        },
-        {
-            question: 'Jak przygotować telefon do wysyłki?',
-            answer: 'Przed wysyłką usuń wszystkie dane z telefonu, wyloguj się z iCloud (wiem, że to ważne!) i wyłącz funkcję "Znajdź mój iPhone". Następnie bezpiecznie zapakuj urządzenie.'
-        },
-        {
-            question: 'Czy muszę wysłać ładowarkę i akcesoria?',
-            answer: 'Nie, potrzebujemy tylko samego urządzenia. Ładowarki, kable i słuchawki możesz zachować dla siebie lub oddać do recyklingu.'
-        },
-        {
-            question: 'Co jeśli stan telefonu różni się od deklarowanego?',
-            answer: 'Jeśli nasza ocena będzie różnić się od Twojej, wyślemy Ci nową ofertę cenową na maila. Możesz ją zaakceptować lub odrzucić - w takim przypadku odeślemy telefon do Ciebie za darmo.'
-        },
-        {
-            question: 'Cennik - ile dostanę za mój telefon?',
-            answer: 'Wycena zależy od modelu i stanu wizualnego. Skorzystaj z naszej wyszukiwarki na górze strony, aby zobaczyć aktualną ofertę dla Twojego modelu.'
-        }
-    ];
+    const [activeIndex, setActiveIndex] = useState(null);
+
+    const toggleFAQ = (index) => {
+        setActiveIndex(activeIndex === index ? null : index);
+    };
 
     return (
-        <section id="faq" className={styles.section}>
+        <section className={styles.section}>
             <div className={styles.container}>
-                <h2 className={styles.title}>Częste pytania</h2>
+                <h2 className={styles.title}>Często zadawane pytania</h2>
                 <div className={styles.faqList}>
                     {faqs.map((faq, index) => (
-                        <FAQItem key={index} question={faq.question} answer={faq.answer} />
+                        <button
+                            key={index}
+                            className={`${styles.item} ${activeIndex === index ? styles.active : ''}`}
+                            onClick={() => toggleFAQ(index)}
+                            aria-expanded={activeIndex === index}
+                        >
+                            <div className={styles.question}>
+                                {faq.question}
+                                <span className={styles.icon}>{activeIndex === index ? '−' : '+'}</span>
+                            </div>
+                            <div
+                                className={styles.answer}
+                                style={{ maxHeight: activeIndex === index ? '200px' : '0' }}
+                            >
+                                <p>{faq.answer}</p>
+                            </div>
+                        </button>
                     ))}
                 </div>
             </div>
-        </section>
-    );
-}
-
-function FAQItem({ question, answer }) {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-        <div className={styles.item}>
-            <button
-                className={styles.questionButton}
-                onClick={() => setIsOpen(!isOpen)}
-                aria-expanded={isOpen}
-            >
-                <span className={styles.questionText}>{question}</span>
-                <span className={`${styles.icon} ${isOpen ? styles.iconOpen : ''}`}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </span>
-            </button>
-            <div
-                className={styles.answerWrapper}
-                style={{ maxHeight: isOpen ? '200px' : '0' }}
-            >
-                <div className={styles.answer}>{answer}</div>
-            </div>
-        </div>
+        </section >
     );
 }

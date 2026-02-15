@@ -1,5 +1,10 @@
 import { Poppins, Lato } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "../context/ThemeContext";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import { Analytics } from "@vercel/analytics/react";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -71,11 +76,19 @@ export const metadata = {
   },
 };
 
+
+
 export default function RootLayout({ children }) {
   return (
     <html lang="pl">
       <body className={`${poppins.variable} ${lato.variable}`}>
-        {children}
+        <ThemeProvider>
+          <Header />
+          {children}
+          <Footer />
+          <Analytics />
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        </ThemeProvider>
       </body>
     </html>
   );

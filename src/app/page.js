@@ -1,21 +1,13 @@
-import Header from '../components/Header';
 import Hero from '../components/Hero';
 import LiveTicker from '../components/LiveTicker';
 import ModelCarousel from '../components/ModelCarousel';
-
-
 import Steps from '../components/Steps';
 import Reviews from '../components/Reviews';
-import FAQ from '../components/FAQ';
 import Trust from '../components/Trust';
-import Footer from '../components/Footer';
 
 export default function Home() {
   return (
     <main>
-      <Header />
-      {/* Spacer for fixed header */}
-      <div style={{ height: '64px' }} />
 
       <script
         type="application/ld+json"
@@ -64,8 +56,7 @@ export default function Home() {
       <ModelCarousel />
       <Steps />
       <Reviews />
-      <FAQ />
-      <Footer />
+      {/* <FAQ /> */}
     </main>
   );
 }

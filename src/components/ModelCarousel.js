@@ -1,26 +1,26 @@
-
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
+import { supabase } from '../lib/supabaseClient';
 import styles from './ModelCarousel.module.css';
-
-const MODELS = [
-    { id: '16pm', name: 'iPhone 16 Pro Max' },
-    { id: '16p', name: 'iPhone 16 Pro' },
-    { id: '16', name: 'iPhone 16' },
-    { id: '15pm', name: 'iPhone 15 Pro Max' },
-    { id: '15p', name: 'iPhone 15 Pro' },
-    { id: '15', name: 'iPhone 15' },
-    { id: '14pm', name: 'iPhone 14 Pro Max' },
-    { id: '14p', name: 'iPhone 14 Pro' },
-    { id: '14', name: 'iPhone 14' },
-    { id: '13', name: 'iPhone 13' },
-];
 
 export default function ModelCarousel() {
     const scrollRef = useRef(null);
     const [isHovering, setIsHovering] = useState(false);
+    const [models, setModels] = useState([]);
     const animationRef = useRef(null);
+
+    // Fetch models on mount
+    useEffect(() => {
+        const fetchModels = async () => {
+            const { data } = await supabase
+                .from('models')
+                .select('*')
+                .order('sort_order', { ascending: true });
+            if (data) setModels(data);
+        };
+        fetchModels();
+    }, []);
 
     const scroll = (direction) => {
         if (scrollRef.current) {
@@ -84,7 +84,7 @@ export default function ModelCarousel() {
                     </button>
 
                     <div className={styles.carousel} ref={scrollRef}>
-                        {MODELS.map((model) => (
+                        {models.map((model) => (
                             <div key={model.id} className={styles.card}>
                                 <div className={styles.imagePlaceholder}>
                                     <span className={styles.placeholderText}>📱</span>
