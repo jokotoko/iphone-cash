@@ -1,6 +1,4 @@
-import Header from '../../components/Header';
 import OrderWizard from '../../components/OrderWizard';
-import Footer from '../../components/Footer';
 
 export const metadata = {
     title: "Darmowa Wycena iPhone | Sprawdź Wartość Telefonu",
@@ -10,13 +8,10 @@ export const metadata = {
 export default function WycenaPage() {
     return (
         <main>
-            <Header />
             {/* Spacer for fixed header */}
             <div style={{ height: '64px' }} />
 
             <OrderWizard />
-
-            <Footer />
         </main>
     );
 }
