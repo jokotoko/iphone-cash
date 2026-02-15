@@ -56,7 +56,7 @@ export default function Reviews() {
                                 <span className={styles.date}>{review.date}</span>
                             </div>
 
-                            <p className={styles.text}>"{review.text}"</p>
+                            <p className={styles.text}>&quot;{review.text}&quot;</p>
 
                             <div className={styles.author}>
                                 <div className={styles.avatar}>{review.initial}</div>

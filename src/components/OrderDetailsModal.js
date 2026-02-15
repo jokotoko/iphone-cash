@@ -4,16 +4,42 @@ import styles from '../app/admin/Admin.module.css';
 import { useState } from 'react';
 
 export default function OrderDetailsModal({ order, onClose, onUpdateStatus }) {
+    const [updating, setUpdating] = useState(false);
+    const [loadingLabel, setLoadingLabel] = useState(false);
+    const [labelError, setLabelError] = useState(null);
+
     if (!order) return null;
 
     const { customer_info, details } = order;
-    const [updating, setUpdating] = useState(false);
 
     const handleStatusChange = async (newStatus) => {
         setUpdating(true);
         await onUpdateStatus(order.id, newStatus);
         setUpdating(false);
         onClose();
+    };
+
+    const generateLabel = async () => {
+        setLoadingLabel(true);
+        setLabelError(null);
+        try {
+            const res = await fetch('/api/inpost/create-label', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderId: order.id })
+            });
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.error || 'Błąd generowania');
+
+            // Refresh parent state (hacky but works for now without full reload)
+            window.location.reload();
+
+        } catch (err) {
+            setLabelError(err.message);
+        } finally {
+            setLoadingLabel(false);
+        }
     };
 
     return (
@@ -144,6 +170,56 @@ export default function OrderDetailsModal({ order, onClose, onUpdateStatus }) {
                     <div className={styles.infoRow}>
                         <span className={styles.label}>Metoda wysyłki:</span>
                         <span className={styles.value}>Kurier (Etykieta)</span>
+                    </div>
+
+                    {/* InPost Integration */}
+                    <div style={{ marginTop: '24px', padding: '16px', border: '1px dashed #ccc', borderRadius: '8px', background: '#fff' }}>
+                        <h4 style={{ margin: '0 0 12px 0', fontSize: '1rem' }}>Etykieta InPost</h4>
+                        {order.tracking_number ? (
+                            <div>
+                                <div style={{ color: '#2E7D32', fontWeight: 'bold', marginBottom: '8px' }}>
+                                    ✓ Etykieta wygenerowana
+                                </div>
+                                <div style={{ fontSize: '0.9rem' }}>
+                                    Nr śledzenia: <strong>{order.tracking_number}</strong>
+                                </div>
+                                <a
+                                    href={`https://inpost.pl/sledzenie-przesylek?number=${order.tracking_number}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ display: 'inline-block', marginTop: '8px', color: '#1565C0', textDecoration: 'none', fontSize: '0.9rem' }}
+                                >
+                                    Śledź przesyłkę →
+                                </a>
+                            </div>
+                        ) : (
+                            <div>
+                                <p style={{ fontSize: '0.9rem', color: '#666', marginBottom: '12px' }}>
+                                    Wygeneruj etykietę, aby zamówić kuriera/paczkomat dla klienta.
+                                </p>
+                                <button
+                                    onClick={generateLabel}
+                                    disabled={loadingLabel}
+                                    style={{
+                                        padding: '8px 16px',
+                                        background: '#FFC107',
+                                        color: '#333',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+                                        fontWeight: '600',
+                                        opacity: loadingLabel ? 0.7 : 1
+                                    }}
+                                >
+                                    {loadingLabel ? 'Generowanie...' : 'Generuj Etykietę InPost'}
+                                </button>
+                                {labelError && (
+                                    <div style={{ color: '#D32F2F', fontSize: '0.8rem', marginTop: '8px' }}>
+                                        Błąd: {labelError}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
 

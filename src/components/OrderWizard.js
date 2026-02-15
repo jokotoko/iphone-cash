@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabaseClient';
+import { generateSalesAgreement } from '../lib/pdfGenerator';
+import Link from 'next/link';
 import styles from './OrderWizard.module.css';
 
 const steps = [
@@ -87,30 +90,64 @@ const bodyOptions = [
 
 export default function OrderWizard() {
     const [currentStep, setCurrentStep] = useState(1);
-    const [price, setPrice] = useState(3039.00);
+    const [price, setPrice] = useState(0);
+    const [models, setModels] = useState([]);
+    const [loadingModels, setLoadingModels] = useState(true);
+
+    // Initial state with default model logic
     const [selections, setSelections] = useState({
-        model: 'iPhone 16 Pro',
+        model: '', // Will update when models are fetched
         capacity: '256GB',
         battery: '90',
         functional: 'Wszystko działa',
-        screen: null, // 'perfect', 'scratched', 'cracked'
-        body: null    // 'perfect', 'dents', 'bent'
+        screen: null,
+        body: null
     });
+
     const [contact, setContact] = useState({
         name: '',
         email: '',
         phone: '',
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        zip: '',
         city: ''
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [submittedOrder, setSubmittedOrder] = useState(null);
 
-    // Mock pricing logic
+    // Fetch models on mount
     useEffect(() => {
-        let base = 3500;
-        // Model base price adjustments
-        if (selections.model === 'iPhone 16') base = 3100;
-        if (selections.model === 'iPhone 15 Pro') base = 2800;
+        const fetchModels = async () => {
+            const { data, error } = await supabase
+                .from('models')
+                .select('*')
+                .order('sort_order', { ascending: true });
+
+            if (!error && data && data.length > 0) {
+                setModels(data);
+                // Set default model if not set or if current not in list
+                setSelections(prev => {
+                    if (!prev.model || !data.some(m => m.name === prev.model)) {
+                        return { ...prev, model: data[0].name };
+                    }
+                    return prev;
+                });
+            }
+            setLoadingModels(false);
+        };
+        fetchModels();
+    }, []);
+
+    // Pricing calculation
+    useEffect(() => {
+        if (models.length === 0) return;
+
+        const selectedModel = models.find(m => m.name === selections.model);
+        let base = selectedModel ? selectedModel.base_price : 0;
 
         // Capacity adjustments
         if (selections.capacity === '128GB') base -= 200;
@@ -118,9 +155,9 @@ export default function OrderWizard() {
         if (selections.capacity === '1TB') base += 400;
 
         // Battery adjustments
-        if (parseInt(selections.battery) < 85) base -= 200;
-        if (parseInt(selections.battery) < 80) base -= 300;
-
+        const battery = parseInt(selections.battery) || 0;
+        if (battery < 85) base -= 200;
+        if (battery < 80) base -= 300;
 
         // Condition adjustments (Visual)
         // Adjust for Screen
@@ -134,8 +171,8 @@ export default function OrderWizard() {
         // Functional adjustments
         if (selections.functional !== 'Wszystko działa') base -= 300;
 
-        setPrice(base > 0 ? base : 0);
-    }, [selections]);
+        setPrice(base > 0 ? Math.round(base) : 0);
+    }, [selections, models]);
 
     const handleNext = () => {
         if (currentStep < 6) {
@@ -160,10 +197,13 @@ export default function OrderWizard() {
                 }),
             });
 
+            const data = await response.json();
+
             if (response.ok) {
+                setSubmittedOrder(data.order);
                 setIsSuccess(true);
             } else {
-                alert('Wystąpił błąd podczas wysyłania zgłoszenia.');
+                alert('Wystąpił błąd podczas wysyłania zgłoszenia: ' + (data.error || 'Nieznany błąd'));
             }
         } catch (error) {
             console.error('Error submitting order:', error);
@@ -177,16 +217,39 @@ export default function OrderWizard() {
 
     if (isSuccess) {
         return (
-            <section className={styles.wizardContainer}>
+            <section className={styles.successContainer}>
                 <div className={styles.successMessage}>
                     <div className={styles.successIcon}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg>
                     </div>
                     <h2>Dziękujemy za zgłoszenie!</h2>
                     <p>Skontaktujemy się z Tobą w ciągu 24h w celu potwierdzenia odbioru.</p>
-                    <p className={styles.orderSummary}>Szacowana kwota: <strong>{price.toLocaleString('pl-PL')} zł</strong></p>
+
+                    <div className={styles.orderSummary}>
+                        Szacowana kwota: <strong>{price.toLocaleString('pl-PL')} zł</strong>
+                    </div>
+
+                    <div className={styles.actions}>
+                        {submittedOrder && (
+                            <button
+                                onClick={() => generateSalesAgreement(submittedOrder)}
+                                className={styles.downloadBtn}
+                            >
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                </svg>
+                                Pobierz Umowę PDF
+                            </button>
+                        )}
+
+                        <Link href="/" className={styles.homeBtn}>
+                            Wróć na stronę główną
+                        </Link>
+                    </div>
                 </div>
             </section>
         );
@@ -205,7 +268,7 @@ export default function OrderWizard() {
                 <div className={styles.summaryDetails}>
                     <div className={styles.summaryRow}>
                         <span className={styles.label}>Model:</span>
-                        <span className={styles.value}>{selections.model}</span>
+                        <span className={styles.value}>{selections.model || '-'}</span>
                     </div>
                     <div className={styles.summaryRow}>
                         <span className={styles.label}>Pojemność:</span>
@@ -260,18 +323,18 @@ export default function OrderWizard() {
 
                     <div className={styles.optionsContainer}>
                         {currentStep === 1 && (
-                            <select
-                                className={styles.selectInput}
-                                value={selections.model}
-                                onChange={(e) => setSelections({ ...selections, model: e.target.value })}
-                            >
-                                <option>iPhone 16 Pro</option>
-                                <option>iPhone 16</option>
-                                <option>iPhone 15 Pro</option>
-                                <option>iPhone 15</option>
-                                <option>iPhone 14 Pro</option>
-                                <option>iPhone 14</option>
-                            </select>
+                            loadingModels ? <div>Ładowanie modeli...</div> :
+                                <select
+                                    className={styles.selectInput}
+                                    value={selections.model}
+                                    onChange={(e) => setSelections({ ...selections, model: e.target.value })}
+                                >
+                                    {models.map(model => (
+                                        <option key={model.id} value={model.name}>
+                                            {model.name}
+                                        </option>
+                                    ))}
+                                </select>
                         )}
 
                         {currentStep === 2 && (
@@ -407,6 +470,32 @@ export default function OrderWizard() {
                                     />
                                 </div>
                                 <div className={styles.inputGroup}>
+                                    <label htmlFor="address">Ulica i numer</label>
+                                    <input
+                                        id="address"
+                                        name="address"
+                                        type="text"
+                                        autoComplete="street-address"
+                                        className={styles.textInput}
+                                        value={contact.address}
+                                        onChange={(e) => setContact({ ...contact, address: e.target.value })}
+                                        placeholder="ul. Przykładowa 1/2"
+                                    />
+                                </div>
+                                <div className={styles.inputGroup}>
+                                    <label htmlFor="zip">Kod pocztowy</label>
+                                    <input
+                                        id="zip"
+                                        name="zip"
+                                        type="text"
+                                        autoComplete="postal-code"
+                                        className={styles.textInput}
+                                        value={contact.zip}
+                                        onChange={(e) => setContact({ ...contact, zip: e.target.value })}
+                                        placeholder="00-000"
+                                    />
+                                </div>
+                                <div className={styles.inputGroup}>
                                     <label htmlFor="city">Miasto</label>
                                     <input
                                         id="city"
@@ -437,11 +526,11 @@ export default function OrderWizard() {
                             onClick={handleNext}
                             disabled={
                                 (currentStep === 5 && (!selections.screen || !selections.body)) ||
-                                (currentStep === 6 && (!contact.name || !contact.email || !contact.phone)) ||
+                                (currentStep === 6 && (!contact.name || !contact.email || !contact.phone || !contact.address || !contact.zip || !contact.city)) ||
                                 isSubmitting
                             }
                             className={`${styles.nextButton} ${((currentStep === 5 && (!selections.screen || !selections.body)) ||
-                                (currentStep === 6 && (!contact.name || !contact.email || !contact.phone)) ||
+                                (currentStep === 6 && (!contact.name || !contact.email || !contact.phone || !contact.address || !contact.zip || !contact.city)) ||
                                 isSubmitting) ? styles.disabled : ''
                                 }`}
                         >

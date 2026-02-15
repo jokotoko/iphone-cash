@@ -7,20 +7,19 @@ const steps = [
         id: 1,
         title: 'Wybierz model',
         description: 'Wypełnij krótki formularz o stanie telefonu. Zajmie to mniej niż minutę.',
-        image: 'https://assets.swappie.com/cdn-cgi/image/width=600,fit=cover,format=auto/sell-step-1.jpg?v=13604f91'
+        image: '/images/steps/step-1.svg'
     },
     {
         id: 2,
         title: 'Darmowa wysyłka',
         description: 'Wyślemy Ci opłaconą etykietę lub kuriera. Zapakuj bezpiecznie telefon.',
-        image: 'https://assets.swappie.com/cdn-cgi/image/width=600,fit=cover,format=auto/sell-step-2.jpg?v=13604f91'
+        image: '/images/steps/step-2.svg'
     },
     {
         id: 3,
         title: 'Szybka wypłata',
         description: 'Pieniądze na koncie w ciągu 24-48h od sprawdzenia telefonu przez nasz serwis.',
-        image: 'https://assets.swappie.com/cdn-cgi/image/width=600,fit=cover,format=auto/sell-step-3.jpg?v=13604f91'
-        // Using a similar placeholder, ideally would be unique per step
+        image: '/images/steps/step-3.svg'
     }
 ];
 

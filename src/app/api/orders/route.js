@@ -12,6 +12,7 @@ export async function POST(request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
+
         const { data, error } = await supabase
             .from('orders')
             .insert([
@@ -34,6 +35,15 @@ export async function POST(request) {
         if (error) {
             console.error('Supabase error:', error);
             return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+
+        // Send email confirmation (don't block response if it fails)
+        try {
+            const { sendOrderConfirmation } = await import('../../../lib/email');
+            await sendOrderConfirmation(data[0]);
+        } catch (emailError) {
+            console.error('Failed to send email:', emailError);
+            // We still return success because the order was saved
         }
 
         return NextResponse.json({ success: true, order: data[0] });
