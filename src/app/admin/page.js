@@ -211,6 +211,14 @@ export default function AdminPage() {
                                             >
                                                 Szczegóły / Zmień status
                                             </button>
+
+                                            <a
+                                                href={`mailto:${order.customer_info?.email}?subject=Etykieta przewozowa dla zamówienia #${order.id.slice(0, 8).toUpperCase()}&body=Dzień dobry,%0D%0A%0D%0AW załączniku przesyłamy darmową etykietę przewozową InPost.%0D%0A%0D%0AProsimy o wydrukowanie jej, naklejenie na paczkę i nadanie w dowolnym Paczkomacie.%0D%0APamiętaj o bezpiecznym zapakowaniu urządzenia!%0D%0A%0D%0APozdrawiamy,%0D%0AZespół iPhoneCash.io`}
+                                                className={styles.emailBtn}
+                                                style={{ marginLeft: '8px', textDecoration: 'none', display: 'inline-block' }}
+                                            >
+                                                📧 Wyślij Etykietę
+                                            </a>
                                         </td>
                                     </tr>
                                 ))}

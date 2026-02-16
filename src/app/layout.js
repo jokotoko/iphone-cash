@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from '@next/third-parties/google';
+import CookieConsent from '../components/CookieConsent';
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -89,6 +90,7 @@ export default function RootLayout({ children }) {
           <Footer />
           <Analytics />
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+          <CookieConsent />
         </ThemeProvider>
       </body>
     </html>

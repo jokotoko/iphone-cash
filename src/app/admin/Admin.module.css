@@ -106,9 +106,24 @@
     border: 1px solid #E5E7EB;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 0.85rem;
     font-weight: 500;
     transition: all 0.2s;
+}
+
+.emailBtn {
+    padding: 6px 12px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.emailBtn:hover {
+    background-color: var(--primary-hover);
 }
 
 .detailsBtn:hover {

@@ -4,6 +4,9 @@ import ModelCarousel from '../components/ModelCarousel';
 import Steps from '../components/Steps';
 import Reviews from '../components/Reviews';
 import Trust from '../components/Trust';
+import FAQ from '../components/FAQ';
+import ValueDropCalculator from '../components/ValueDropCalculator';
+import RecentPurchases from '../components/RecentPurchases';
 
 export default function Home() {
   return (
@@ -54,9 +57,11 @@ export default function Home() {
       <LiveTicker />
       <Trust />
       <ModelCarousel />
+      <ValueDropCalculator />
       <Steps />
+      <RecentPurchases />
       <Reviews />
-      {/* <FAQ /> */}
+      <FAQ />
     </main>
   );
 }

@@ -1,11 +1,6 @@
 .section {
     padding: 80px 20px;
-    background-color: #fafafa;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
+    background-color: var(--background);
 }
 
 .title {
@@ -13,26 +8,16 @@
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 40px;
-    color: #111;
-}
-
-.faqList {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    color: var(--text-main);
 }
 
 .item {
-    background: #fff;
+    background: var(--surface-alt);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     cursor: pointer;
-}
-
-.item:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .question {
@@ -42,19 +27,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #333;
+    color: var(--text-main);
 }
 
 .icon {
     font-size: 1.5rem;
     font-weight: 400;
-    color: #0070f3;
+    color: var(--primary);
     transition: transform 0.3s ease;
 }
 
 .answer {
     padding: 0 24px;
-    color: #666;
+    color: var(--text-secondary);
     line-height: 1.6;
     transition: all 0.3s ease;
     opacity: 0;

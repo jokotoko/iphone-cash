@@ -224,11 +224,24 @@ export default function OrderWizard() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg>
                     </div>
-                    <h2>Dziękujemy za zgłoszenie!</h2>
-                    <p>Skontaktujemy się z Tobą w ciągu 24h w celu potwierdzenia odbioru.</p>
+                    <h2>Zlecenie przyjęte! 📦</h2>
+
+                    <div className={styles.infoBox}>
+                        <p><strong>Twój numer zlecenia to: #{submittedOrder?.id.slice(0, 8).toUpperCase()}</strong></p>
+                        <p>Dziękujemy za zaufanie. Twoje zgłoszenie trafiło do weryfikacji.</p>
+
+                        <div className={styles.nextSteps}>
+                            <h4>Co wydarzy się dalej?</h4>
+                            <ol>
+                                <li>W ciągu godziny (godz. 8-20) <strong>wyślemy Ci na maila darmową etykietę InPost</strong>.</li>
+                                <li>Wydrukuj ją i naklej na paczkę (zabezpiecz telefon folią bąbelkową!).</li>
+                                <li>Nadaj paczkę w dowolnym Paczkomacie.</li>
+                            </ol>
+                        </div>
+                    </div>
 
                     <div className={styles.orderSummary}>
-                        Szacowana kwota: <strong>{price.toLocaleString('pl-PL')} zł</strong>
+                        Szacowana kwota do wypłaty: <strong>{price.toLocaleString('pl-PL')} zł</strong>
                     </div>
 
                     <div className={styles.actions}>

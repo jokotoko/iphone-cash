@@ -29,10 +29,12 @@ export default function Header() {
                     {/* <div className={styles.navItem}>
                         <Link href="/kup" className={styles.navLink}>Kup</Link> 
                     </div> */}
-                    <Link href="#models" className={styles.navLink}>Sprzedaj</Link>
-                    <Link href="#how-it-works" className={styles.navLink}>Jak to działa</Link>
-                    <Link href="#reviews" className={styles.navLink}>Opinie</Link>
-                    <Link href="#faq" className={styles.navLink}>Pomoc</Link>
+                    <Link href="/#models" className={styles.navLink}>Sprzedaj</Link>
+                    <Link href="/status" className={styles.navLink}>Status</Link>
+                    <Link href="/blog" className={styles.navLink}>Blog</Link>
+                    <Link href="/#how-it-works" className={styles.navLink}>Jak to działa</Link>
+                    <Link href="/#reviews" className={styles.navLink}>Opinie</Link>
+                    <Link href="/#faq" className={styles.navLink}>Pomoc</Link>
                 </nav>
 
 
@@ -68,10 +70,12 @@ export default function Header() {
             {/* Mobile Menu Overlay */}
             <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
                 <nav className={styles.mobileNav}>
-                    <Link href="#models" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Sprzedaj</Link>
-                    <Link href="#how-it-works" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Jak to działa</Link>
-                    <Link href="#reviews" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Opinie</Link>
-                    <Link href="#faq" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Pomoc</Link>
+                    <Link href="/#models" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Sprzedaj</Link>
+                    <Link href="/status" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Status</Link>
+                    <Link href="/blog" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Blog</Link>
+                    <Link href="/#how-it-works" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Jak to działa</Link>
+                    <Link href="/#reviews" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Opinie</Link>
+                    <Link href="/#faq" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Pomoc</Link>
                     <div className={styles.mobileDivider}></div>
                     <Link href="/koszyk" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Koszyk</Link>
                     <Link href="/kraj" className={styles.mobileNavLink} onClick={toggleMobileMenu}>Polska (PLN)</Link>
